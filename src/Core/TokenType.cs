@@ -1,0 +1,38 @@
+namespace GamerScript.Core;
+
+internal enum TokenType
+{
+    Var,
+    Function,
+    If,
+    Elif,
+    Else,
+    True,
+    False,
+    Print,
+    Input,
+    While,
+    Return,
+    Sleep,
+    Increment,
+    Decrement,
+    Identifier,
+    Number,
+    String,
+    Plus,
+    Minus,
+    Asterisk,
+    Slash,
+    Assignment,
+    Equals,
+    GreaterThan,
+    GreaterThanOrEqual,
+    LessThan,
+    LessThanOrEqual,
+    LeftParen,
+    RightParen,
+    LeftBrace,
+    RightBrace,
+    NewLine,
+    EndOfFile
+}

@@ -13,16 +13,15 @@ var rootCommand = new RootCommand("Executes a GamerScript source file")
 };
 rootCommand.Name = "GamerScriptCLI";
 
-rootCommand.SetHandler(source =>
+rootCommand.SetHandler(fileInfo =>
 {
     try
     {
-        var sourceCode = File.ReadAllText(source.FullName);
+        var sourceCode = File.ReadAllText(fileInfo.FullName);
         var lexer = new Lexer(sourceCode);
         var parser = new Parser(lexer);
-        var programNode = parser.Parse();
-        var interpreter = new Interpreter();
-        interpreter.Evaluate(programNode);
+        var interpreter = new Interpreter(parser);
+        interpreter.Evaluate();
     }
     catch (Exception e)
     {

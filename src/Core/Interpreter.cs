@@ -1,9 +1,8 @@
 namespace GamerScript.Core;
 
-public class Interpreter
+public class Interpreter(Parser parser)
 {
-    public void Evaluate(ProgramNode programNode)
+    public void Evaluate()
     {
-        throw new NotImplementedException();
     }
 }
