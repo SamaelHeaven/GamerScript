@@ -35,8 +35,7 @@ public static class ImageGenerator
         var font = fontFamily.CreateFont(FontSize, FontStyle.Regular);
         var options = new TextOptions(font)
         {
-            Dpi = Dpi,
-            KerningMode = KerningMode.Auto
+            Dpi = Dpi
         };
 
         var imageWidth = 0;
