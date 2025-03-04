@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLI", "src\CLI\CLI.csproj", "{85655B2F-604F-4CFA-8FC7-BFCBD07E207C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "src\Core\Core.csproj", "{3228383E-C4B4-4848-8D4E-E2BC3698DCDD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamerScript", "src\GamerScript\GamerScript.csproj", "{85655B2F-604F-4CFA-8FC7-BFCBD07E207C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,9 +12,5 @@ Global
 		{85655B2F-604F-4CFA-8FC7-BFCBD07E207C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85655B2F-604F-4CFA-8FC7-BFCBD07E207C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85655B2F-604F-4CFA-8FC7-BFCBD07E207C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3228383E-C4B4-4848-8D4E-E2BC3698DCDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3228383E-C4B4-4848-8D4E-E2BC3698DCDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3228383E-C4B4-4848-8D4E-E2BC3698DCDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3228383E-C4B4-4848-8D4E-E2BC3698DCDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

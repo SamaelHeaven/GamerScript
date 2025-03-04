@@ -1,4 +1,4 @@
-namespace GamerScript.Core;
+namespace GamerScript;
 
 public class Interpreter(Parser parser)
 {
