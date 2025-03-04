@@ -19,7 +19,7 @@ var rootCommand =
         sourceArgument,
         imageOption
     };
-rootCommand.Name = "GamerScriptCLI";
+rootCommand.Name = "GamerScript.CLI";
 
 rootCommand.SetHandler((sourceInfo, imageName) =>
 {
