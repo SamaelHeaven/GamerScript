@@ -1,0 +1,369 @@
+﻿[
+  {
+    Name: {
+      Type: Identifier,
+      Lexeme: main,
+      Line: 1
+    },
+    Body: {
+      Statements: [
+        {
+          Name: {
+            Type: Identifier,
+            Lexeme: x,
+            Line: 2
+          },
+          Initializer: {
+            Token: {
+              Type: Number,
+              Lexeme: 10,
+              Line: 2
+            }
+          }
+        },
+        {
+          Name: {
+            Type: Identifier,
+            Lexeme: y,
+            Line: 3
+          },
+          Initializer: {
+            Token: {
+              Type: Number,
+              Lexeme: 5.3,
+              Line: 3
+            }
+          }
+        },
+        {
+          Name: {
+            Type: Identifier,
+            Lexeme: result,
+            Line: 4
+          }
+        },
+        {
+          Name: {
+            Type: Identifier,
+            Lexeme: message,
+            Line: 5
+          },
+          Initializer: {
+            Token: {
+              Type: String,
+              Lexeme: "Hello, Gamer!",
+              Line: 5
+            }
+          }
+        },
+        {
+          Condition: {
+            Left: {
+              Name: {
+                Type: Identifier,
+                Lexeme: x,
+                Line: 7
+              }
+            },
+            Operator: {
+              Type: GreaterThan,
+              Lexeme: >,
+              Line: 7
+            },
+            Right: {
+              Name: {
+                Type: Identifier,
+                Lexeme: y,
+                Line: 7
+              }
+            }
+          },
+          ThenBranch: {
+            Statements: [
+              {
+                Variable: {
+                  Name: {
+                    Type: Identifier,
+                    Lexeme: result,
+                    Line: 8
+                  }
+                },
+                Value: {
+                  Left: {
+                    Name: {
+                      Type: Identifier,
+                      Lexeme: x,
+                      Line: 8
+                    }
+                  },
+                  Operator: {
+                    Type: Plus,
+                    Lexeme: +,
+                    Line: 8
+                  },
+                  Right: {
+                    Name: {
+                      Type: Identifier,
+                      Lexeme: y,
+                      Line: 8
+                    }
+                  }
+                }
+              },
+              {
+                Expression: {
+                  Identifier: {
+                    Type: Identifier,
+                    Lexeme: taunt,
+                    Line: 9
+                  },
+                  Arguments: [
+                    {
+                      Token: {
+                        Type: String,
+                        Lexeme: "X is greater than Y",
+                        Line: 9
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          ElifBranches: [
+            {
+              Item1: {
+                Left: {
+                  Name: {
+                    Type: Identifier,
+                    Lexeme: x,
+                    Line: 10
+                  }
+                },
+                Operator: {
+                  Type: Equals,
+                  Lexeme: ==,
+                  Line: 10
+                },
+                Right: {
+                  Name: {
+                    Type: Identifier,
+                    Lexeme: y,
+                    Line: 10
+                  }
+                }
+              },
+              Item2: {
+                Statements: [
+                  {
+                    Variable: {
+                      Name: {
+                        Type: Identifier,
+                        Lexeme: result,
+                        Line: 11
+                      }
+                    },
+                    Value: {
+                      Left: {
+                        Name: {
+                          Type: Identifier,
+                          Lexeme: x,
+                          Line: 11
+                        }
+                      },
+                      Operator: {
+                        Type: Asterisk,
+                        Lexeme: *,
+                        Line: 11
+                      },
+                      Right: {
+                        Name: {
+                          Type: Identifier,
+                          Lexeme: y,
+                          Line: 11
+                        }
+                      }
+                    }
+                  },
+                  {
+                    Expression: {
+                      Identifier: {
+                        Type: Identifier,
+                        Lexeme: taunt,
+                        Line: 12
+                      },
+                      Arguments: [
+                        {
+                          Token: {
+                            Type: String,
+                            Lexeme: "X equals Y",
+                            Line: 12
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          ElseBranch: {
+            Statements: [
+              {
+                Variable: {
+                  Name: {
+                    Type: Identifier,
+                    Lexeme: result,
+                    Line: 14
+                  }
+                },
+                Value: {
+                  Left: {
+                    Name: {
+                      Type: Identifier,
+                      Lexeme: x,
+                      Line: 14
+                    }
+                  },
+                  Operator: {
+                    Type: Minus,
+                    Lexeme: -,
+                    Line: 14
+                  },
+                  Right: {
+                    Name: {
+                      Type: Identifier,
+                      Lexeme: y,
+                      Line: 14
+                    }
+                  }
+                }
+              },
+              {
+                Expression: {
+                  Identifier: {
+                    Type: Identifier,
+                    Lexeme: taunt,
+                    Line: 15
+                  },
+                  Arguments: [
+                    {
+                      Token: {
+                        Type: String,
+                        Lexeme: "X is less than Y",
+                        Line: 15
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          Condition: {
+            Left: {
+              Name: {
+                Type: Identifier,
+                Lexeme: result,
+                Line: 18
+              }
+            },
+            Operator: {
+              Type: GreaterThan,
+              Lexeme: >,
+              Line: 18
+            },
+            Right: {
+              Token: {
+                Type: Number,
+                Lexeme: 0,
+                Line: 18
+              }
+            }
+          },
+          Body: {
+            Statements: [
+              {
+                Variable: {
+                  Name: {
+                    Type: Identifier,
+                    Lexeme: result,
+                    Line: 19
+                  }
+                },
+                Value: {
+                  Left: {
+                    Name: {
+                      Type: Identifier,
+                      Lexeme: result,
+                      Line: 19
+                    }
+                  },
+                  Operator: {
+                    Type: Minus,
+                    Lexeme: -,
+                    Line: 19
+                  },
+                  Right: {
+                    Token: {
+                      Type: Number,
+                      Lexeme: 1,
+                      Line: 19
+                    }
+                  }
+                }
+              },
+              {
+                Expression: {
+                  Identifier: {
+                    Type: Identifier,
+                    Lexeme: taunt,
+                    Line: 20
+                  },
+                  Arguments: [
+                    {
+                      Name: {
+                        Type: Identifier,
+                        Lexeme: result,
+                        Line: 20
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                Expression: {
+                  Identifier: {
+                    Type: Identifier,
+                    Lexeme: afk,
+                    Line: 21
+                  },
+                  Arguments: [
+                    {
+                      Token: {
+                        Type: Number,
+                        Lexeme: 1,
+                        Line: 21
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          Value: {
+            Token: {
+              Type: Number,
+              Lexeme: 0,
+              Line: 24
+            }
+          }
+        }
+      ]
+    }
+  },
+  {}
+]

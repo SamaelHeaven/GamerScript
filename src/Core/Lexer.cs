@@ -40,6 +40,8 @@ public class Lexer(string source)
                     Lex(TokenType.WhiteSpace, " "),
                 '\t' =>
                     Lex(TokenType.WhiteSpace, "    "),
+                ',' =>
+                    Lex(TokenType.Comma, ","),
                 '+' =>
                     Lex(TokenType.Plus, "+"),
                 '-' =>

@@ -37,7 +37,8 @@ public enum TokenType
     RightParen,
     LeftBrace,
     RightBrace,
-    DelimitersEnd = RightBrace,
+    Comma,
+    DelimitersEnd = Comma,
 
     // Others
     Identifier,
