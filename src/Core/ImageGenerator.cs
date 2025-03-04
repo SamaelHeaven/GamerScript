@@ -5,15 +5,15 @@ using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
-namespace GamerScript;
+namespace GamerScript.Core;
 
 public static class ImageGenerator
 {
     private const int FontSize = 32;
     private const int LineSpacing = 8;
     private const int Dpi = 72;
-    private const int PaddingX = 16;
-    private const int PaddingY = 16;
+    private const int PaddingX = 32;
+    private const int PaddingY = 32;
     private static readonly Color BackgroundColor = Color.ParseHex("#151718");
     private static readonly Color KeywordColor = Color.ParseHex("#e6cd69");
     private static readonly Color IdentifierColor = Color.ParseHex("#55b5db");

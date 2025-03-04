@@ -1,5 +1,5 @@
 ﻿using System.CommandLine;
-using GamerScript;
+using GamerScript.Core;
 using SixLabors.ImageSharp;
 
 var sourceArgument = new Argument<FileInfo>("source", "The path to the source file")
