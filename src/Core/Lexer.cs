@@ -1,4 +1,6 @@
-﻿namespace GamerScript.Core;
+﻿using System.Globalization;
+
+namespace GamerScript.Core;
 
 public class Lexer(string source)
 {
@@ -122,7 +124,7 @@ public class Lexer(string source)
         while (_position < _source.Length && (char.IsDigit(_source[_position]) || _source[_position] == '.'))
             _position++;
         var lexeme = _source[_start.._position];
-        if (!double.TryParse(lexeme, out _))
+        if (!double.TryParse(lexeme, CultureInfo.InvariantCulture, out _))
             throw new GsException($"Invalid number format: '{lexeme}' at line {_line}.");
         return Lex(TokenType.Number, lexeme);
     }
