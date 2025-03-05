@@ -19,6 +19,7 @@ public class Parser(Lexer lexer)
 
     private Statement ParseDeclaration()
     {
+        SkipNewLines();
         if (Match(TokenType.Function))
             return ParseFunction();
         return Match(TokenType.Var) ? ParseVariableDeclaration() : ParseStatement();
@@ -30,7 +31,7 @@ public class Parser(Lexer lexer)
         Expression? initializer = null;
         if (Match(TokenType.Assignment))
             initializer = ParseExpression();
-        Consume(TokenType.NewLine, "Expected newline after variable declaration");
+        ExpectNewLine("variable declaration");
         return new VariableStatement(name, initializer);
     }
 
@@ -54,15 +55,9 @@ public class Parser(Lexer lexer)
     private BlockStatement ParseBlock()
     {
         var statements = new List<Statement>();
-        while (Match(TokenType.NewLine))
-            ;
+        SkipNewLines();
         while (!Check(TokenType.RightBrace) && !IsAtEnd())
-        {
             statements.Add(ParseDeclaration());
-            while (Match(TokenType.NewLine))
-                ;
-        }
-
         Consume(TokenType.RightBrace, "Expected '}' after block");
         return new BlockStatement(statements);
     }
@@ -70,8 +65,7 @@ public class Parser(Lexer lexer)
 
     private Statement ParseStatement()
     {
-        while (Match(TokenType.NewLine))
-            ;
+        SkipNewLines();
         if (Match(TokenType.While))
             return ParseWhileStatement();
         if (Match(TokenType.If))
@@ -129,14 +123,34 @@ public class Parser(Lexer lexer)
             case VariableExpression variable when Match(TokenType.Assignment):
             {
                 var value = ParseExpression();
-                Consume(TokenType.NewLine, "Expected new line after assignment");
+                ExpectNewLine("assignment");
                 return new AssignmentStatement(variable, value);
             }
             case CallExpression or VariableExpression:
-                Consume(TokenType.NewLine, "Expected new line after expression");
+                ExpectNewLine("expression");
                 return new ExpressionStatement(expr);
             default:
                 throw new GsException($"Invalid expression at line {Previous().Line}.");
+        }
+    }
+
+    private void SkipNewLines()
+    {
+        while (Match(TokenType.NewLine))
+        {
+        }
+    }
+
+    private void ExpectNewLine(string after)
+    {
+        try
+        {
+            Consume(TokenType.NewLine, $"Expected new line after {after}");
+        }
+        catch
+        {
+            Consume(TokenType.EndOfFile, $"Expected end of file after {after}");
+            _current--;
         }
     }
 
@@ -244,7 +258,7 @@ public class Parser(Lexer lexer)
 
     private bool Check(TokenType type)
     {
-        return !IsAtEnd() && Peek().Type == type;
+        return Peek().Type == type;
     }
 
     private bool IsAtEnd()

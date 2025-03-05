@@ -30,8 +30,8 @@ rootCommand.SetHandler((sourceInfo, imageName) =>
         if (imageName is null)
         {
             var parser = new Parser(lexer);
-            var interpreter = new Interpreter(parser);
-            interpreter.Evaluate();
+            var interpreter = new Interpreter();
+            interpreter.Interpret(parser.Parse());
             return;
         }
 
