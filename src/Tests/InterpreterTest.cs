@@ -56,7 +56,7 @@ public class InterpreterTest
             taunt(i)
             buff i
         }
-        """, true)]
+        """)]
     public Task Test(string testName, string sourceCode, bool autoVerify = false)
     {
         var settings = new VerifySettings();
