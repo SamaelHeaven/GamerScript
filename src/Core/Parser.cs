@@ -1,8 +1,10 @@
+using System.Diagnostics;
+
 namespace GamerScript.Core;
 
-public class Parser(Lexer lexer)
+public class Parser(IEnumerable<Token> tokens)
 {
-    private readonly List<Token> _tokens = lexer.Tokenize()
+    private readonly List<Token> _tokens = tokens
         .Where(t => t.Type != TokenType.WhiteSpace && t.Type != TokenType.Comment).ToList();
 
     private int _current;
@@ -55,10 +57,13 @@ public class Parser(Lexer lexer)
     private BlockStatement ParseBlock()
     {
         var statements = new List<Statement>();
-        SkipNewLines();
         while (!Check(TokenType.RightBrace) && !IsAtEnd())
-            statements.Add(ParseDeclaration());
-        Consume(TokenType.RightBrace, "Expected '}' after block");
+        {
+            statements.Add(ParseStatement());
+            SkipNewLines();
+        }
+
+        Consume(TokenType.RightBrace, "Expected '}' to end the block.");
         return new BlockStatement(statements);
     }
 
@@ -76,9 +81,23 @@ public class Parser(Lexer lexer)
             return ParseReturnStatement();
         if (Check(TokenType.Identifier))
             return ParseExpressionOrAssignment();
-        if (Peek().Type == TokenType.EndOfFile)
+        if (Match(TokenType.Increment, TokenType.Decrement))
+            return ParseIncrementOrDecrement();
+        if (Check(TokenType.EndOfFile))
             return new EndOfFileStatement();
         throw new GsException($"Unexpected token: {Peek().Type} at line {Peek().Line}.");
+    }
+
+    private Statement ParseIncrementOrDecrement()
+    {
+        var previous = Previous();
+        var token = Consume(TokenType.Identifier, "Expected identifier after increment or decrement statement");
+        return previous.Type switch
+        {
+            TokenType.Increment => new IncrementStatement(token),
+            TokenType.Decrement => new DecrementStatement(token),
+            _ => throw new UnreachableException()
+        };
     }
 
     private WhileStatement ParseWhileStatement()
@@ -136,9 +155,7 @@ public class Parser(Lexer lexer)
 
     private void SkipNewLines()
     {
-        while (Match(TokenType.NewLine))
-        {
-        }
+        while (Match(TokenType.NewLine)) { }
     }
 
     private void ExpectNewLine(string after)
@@ -224,7 +241,7 @@ public class Parser(Lexer lexer)
 
     private Expression ParsePrimary()
     {
-        if (Match(TokenType.Number, TokenType.String))
+        if (Match(TokenType.Number, TokenType.String, TokenType.True, TokenType.False))
             return new LiteralExpression(Previous());
         if (Match(TokenType.Identifier))
         {

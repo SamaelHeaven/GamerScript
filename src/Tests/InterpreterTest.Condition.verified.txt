@@ -1,0 +1,5 @@
+﻿If statements works
+Should display
+X is bigger than 0
+X is smaller than 0
+X is equal to 0

@@ -27,9 +27,8 @@ public static class ImageGenerator
         Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "",
             "resources/Hack-Regular.ttf");
 
-    public static Image Generate(Lexer lexer)
+    public static Image Generate(IList<Token> tokens)
     {
-        var tokens = lexer.Tokenize();
         var fontCollection = new FontCollection();
         var fontFamily = fontCollection.Add(FontPath);
         var font = fontFamily.CreateFont(FontSize, FontStyle.Regular);

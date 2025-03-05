@@ -27,15 +27,16 @@ rootCommand.SetHandler((sourceInfo, imageName) =>
     {
         var sourceCode = File.ReadAllText(sourceInfo.FullName);
         var lexer = new Lexer(sourceCode);
+        var tokens = lexer.Tokenize();
         if (imageName is null)
         {
-            var parser = new Parser(lexer);
+            var parser = new Parser(tokens);
             var interpreter = new Interpreter();
             interpreter.Interpret(parser.Parse());
             return;
         }
 
-        var image = ImageGenerator.Generate(lexer);
+        var image = ImageGenerator.Generate(tokens);
         image.SaveAsPng($"{imageName}.png");
     }
     catch (Exception e)

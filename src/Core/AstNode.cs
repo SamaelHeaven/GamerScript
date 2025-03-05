@@ -15,6 +15,8 @@ public interface IVisitor<out T>
     T VisitFunctionStatement(FunctionStatement stmt);
     T VisitReturnStatement(ReturnStatement stmt);
     T VisitAssignmentStatement(AssignmentStatement stmt);
+    T VisitIncrementStatement(IncrementStatement stmt);
+    T VisitDecrementStatement(DecrementStatement stmt);
     T VisitEndOfFileStatement(EndOfFileStatement stmt);
 }
 
@@ -132,6 +134,22 @@ public record AssignmentStatement(VariableExpression Variable, Expression? Value
     public override T Accept<T>(IVisitor<T> visitor)
     {
         return visitor.VisitAssignmentStatement(this);
+    }
+}
+
+public record IncrementStatement(Token Variable) : Statement
+{
+    public override T Accept<T>(IVisitor<T> visitor)
+    {
+        return visitor.VisitIncrementStatement(this);
+    }
+}
+
+public record DecrementStatement(Token Variable) : Statement
+{
+    public override T Accept<T>(IVisitor<T> visitor)
+    {
+        return visitor.VisitDecrementStatement(this);
     }
 }
 

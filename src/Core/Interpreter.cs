@@ -2,9 +2,10 @@ using System.Globalization;
 
 namespace GamerScript.Core;
 
-public class Interpreter : IVisitor<object?>
+public class Interpreter(TextWriter? stdout = null) : IVisitor<object?>
 {
     private readonly Dictionary<string, FunctionStatement> _functions = new();
+    private readonly TextWriter _stdout = stdout ?? Console.Out;
     private readonly Dictionary<string, object?> _variables = new();
 
     public object? VisitUnaryExpression(UnaryExpression expr)
@@ -28,6 +29,8 @@ public class Interpreter : IVisitor<object?>
                 .Replace("\\n", "\n")
                 .Replace("\\t", "\t")
                 .Replace("\\r", "\r"),
+            TokenType.True => true,
+            TokenType.False => false,
             _ => throw new GsException($"Invalid literal at line {expr.Token.Line}.")
         };
     }
@@ -65,14 +68,16 @@ public class Interpreter : IVisitor<object?>
         switch (functionName)
         {
             case "taunt":
-                Console.WriteLine(Evaluate(expr.Arguments[0]));
-                Console.Out.Flush();
+                _stdout.WriteLine(Evaluate(expr.Arguments[0]));
+                if (_stdout == Console.Out)
+                    _stdout.Flush();
                 return null;
             case "quest":
                 if (expr.Arguments.FirstOrDefault() is null)
                     return Console.ReadLine();
-                Console.WriteLine(Evaluate(expr.Arguments[0]));
-                Console.Out.Flush();
+                _stdout.WriteLine(Evaluate(expr.Arguments[0]));
+                if (_stdout == Console.Out)
+                    _stdout.Flush();
                 return Console.ReadLine();
             case "afk":
             {
@@ -154,6 +159,12 @@ public class Interpreter : IVisitor<object?>
         return stmt.Value != null ? Evaluate(stmt.Value) : null;
     }
 
+    public object? VisitDecrementStatement(DecrementStatement stmt)
+    {
+        _variables[stmt.Variable.Lexeme] = (dynamic?)_variables[stmt.Variable.Lexeme] - 1;
+        return _variables[stmt.Variable.Lexeme];
+    }
+
     public object? VisitEndOfFileStatement(EndOfFileStatement stmt)
     {
         return null;
@@ -166,10 +177,24 @@ public class Interpreter : IVisitor<object?>
         return null;
     }
 
+    public object? VisitIncrementStatement(IncrementStatement stmt)
+    {
+        _variables[stmt.Variable.Lexeme] = (dynamic?)_variables[stmt.Variable.Lexeme] + 1;
+        return _variables[stmt.Variable.Lexeme];
+    }
+
     public void Interpret(IEnumerable<Statement> program)
     {
         foreach (var stmt in program)
             Execute(stmt);
+    }
+
+    public void Interpret(string sourceCode)
+    {
+        var lexer = new Lexer(sourceCode);
+        var parser = new Parser(lexer.Tokenize());
+        var program = parser.Parse();
+        Interpret(program);
     }
 
     private void Execute(AstNode stmt)
