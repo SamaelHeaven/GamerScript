@@ -83,6 +83,8 @@ public class Parser(IEnumerable<Token> tokens)
             return ParseExpressionOrAssignment();
         if (Match(TokenType.Increment, TokenType.Decrement))
             return ParseIncrementOrDecrement();
+        if (Match(TokenType.Function, TokenType.Var))
+            return ParseDeclaration();
         if (Check(TokenType.EndOfFile))
             return new EndOfFileStatement();
         throw new GsException($"Unexpected token: {Peek().Type} at line {Peek().Line}.");

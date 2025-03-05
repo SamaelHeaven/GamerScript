@@ -68,7 +68,14 @@ public class Interpreter(TextWriter? stdout = null) : IVisitor<object?>
         switch (functionName)
         {
             case "taunt":
-                _stdout.WriteLine(Evaluate(expr.Arguments[0]));
+                var strExpr = expr.Arguments.FirstOrDefault();
+                var str = strExpr is null ? "" : Evaluate(strExpr);
+                var newLineExpr = expr.Arguments.ElementAtOrDefault(1);
+                var newLine = newLineExpr is null ? true : Evaluate(newLineExpr);
+                if (IsTruthy(newLine))
+                    _stdout.WriteLine(str);
+                else
+                    _stdout.Write(str);
                 if (_stdout == Console.Out)
                     _stdout.Flush();
                 return null;
@@ -81,12 +88,10 @@ public class Interpreter(TextWriter? stdout = null) : IVisitor<object?>
                 return Console.ReadLine();
             case "afk":
             {
-                var seconds = Convert.ToInt32(Evaluate(expr.Arguments[0]));
-                Thread.Sleep(seconds * 1000);
+                var milliseconds = Convert.ToInt32(Evaluate(expr.Arguments[0]));
+                Thread.Sleep(milliseconds);
                 return null;
             }
-            case "spawn":
-                return null;
         }
 
         if (!_functions.TryGetValue(functionName, out var function))
