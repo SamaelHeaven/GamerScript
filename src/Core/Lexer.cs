@@ -7,7 +7,7 @@ public class Lexer(string source)
     private readonly Dictionary<string, TokenType> _keywords = new()
     {
         { "loot", TokenType.Var },
-        { "strat", TokenType.Function },
+        { "dlc", TokenType.Function },
         { "clutch", TokenType.If },
         { "retry", TokenType.Elif },
         { "ragequit", TokenType.Else },

@@ -22,7 +22,7 @@ The **GamerScript** interpreter is built in **C#**, making it fast and reliable.
 
 | **GamerScript**         | **Traditional**       | 📝 **Example**                          |
 |-------------------------|-----------------------|-----------------------------------------|
-| `strat`                 | `function`            | `strat hello() { taunt("Hi!"); }`       |
+| `dlc`                 | `function`            | `dlc hello() { taunt("Hi!"); }`       |
 | `loot`                  | `var`                 | `loot score = 0`                        |
 | `clutch`                | `if`                  | `clutch buffed { taunt("Win!"); }`      |
 | `retry`                 | `elif`                | `retry condition { taunt("Retry!"); }`  |
@@ -49,11 +49,11 @@ taunt("Hello, World!")
 
 ### 🛠️ **Functions and Returns**
 ```
-strat greet(player) {
+dlc greet(player) {
     taunt("Welcome, " + player + "!")
 }
 
-strat add(x, y) {
+dlc add(x, y) {
     spawn x + y  xX Return the sum Xx
 }
 
