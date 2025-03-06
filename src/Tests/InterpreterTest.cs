@@ -9,11 +9,11 @@ public class InterpreterTest
         taunt("Hello, World!")
         """)]
     [InlineData("Function", """
-        strat func() {
+        dlc func() {
             taunt("Functions works")
         }
 
-        strat calc(x, y) {
+        dlc calc(x, y) {
             spawn x + y
         }
 
@@ -36,7 +36,7 @@ public class InterpreterTest
             taunt("Should display")
         }
 
-        strat test(x) {
+        dlc test(x) {
             clutch x > 0 {
                 taunt("X is bigger than 0")
             } retry x < 0 {

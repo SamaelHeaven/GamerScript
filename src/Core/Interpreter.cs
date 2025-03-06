@@ -137,7 +137,7 @@ public class Interpreter(TextWriter? stdout = null) : IVisitor<object?>
 
     public object? VisitVariableStatement(VariableStatement stmt)
     {
-        var value = stmt.Initializer != null ? Evaluate(stmt.Initializer) : null;
+        var value = stmt.Initializer is not null ? Evaluate(stmt.Initializer) : null;
         _variables[stmt.Name.Lexeme] = value;
         return null;
     }
@@ -160,22 +160,20 @@ public class Interpreter(TextWriter? stdout = null) : IVisitor<object?>
         if (IsTruthy(Evaluate(stmt.Condition)))
         {
             Execute(stmt.ThenBranch);
-        }
-        else
-        {
-            var executed = false;
-            foreach (var (condition, branch) in stmt.ElifBranches)
-                if (IsTruthy(Evaluate(condition)))
-                {
-                    Execute(branch);
-                    executed = true;
-                    break;
-                }
-
-            if (!executed && stmt.ElseBranch != null)
-                Execute(stmt.ElseBranch);
+            return null;
         }
 
+        var executed = false;
+        foreach (var (condition, branch) in stmt.ElifBranches)
+            if (IsTruthy(Evaluate(condition)))
+            {
+                Execute(branch);
+                executed = true;
+                break;
+            }
+
+        if (!executed && stmt.ElseBranch is not null)
+            Execute(stmt.ElseBranch);
         return null;
     }
 
@@ -194,7 +192,7 @@ public class Interpreter(TextWriter? stdout = null) : IVisitor<object?>
 
     public object? VisitReturnStatement(ReturnStatement stmt)
     {
-        return stmt.Value != null ? Evaluate(stmt.Value) : null;
+        return stmt.Value is not null ? Evaluate(stmt.Value) : null;
     }
 
     public object? VisitDecrementStatement(DecrementStatement stmt)
@@ -210,7 +208,7 @@ public class Interpreter(TextWriter? stdout = null) : IVisitor<object?>
 
     public object? VisitAssignmentStatement(AssignmentStatement stmt)
     {
-        var value = stmt.Value != null ? Evaluate(stmt.Value) : null;
+        var value = stmt.Value is not null ? Evaluate(stmt.Value) : null;
         _variables[stmt.Variable.Name.Lexeme] = value;
         return null;
     }

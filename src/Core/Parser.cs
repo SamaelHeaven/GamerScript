@@ -13,18 +13,10 @@ public class Parser(IEnumerable<Token> tokens)
     {
         var statements = new List<Statement>();
         while (!IsAtEnd())
-            statements.Add(ParseDeclaration());
+            statements.Add(ParseStatement());
 
         _current = 0;
         return statements;
-    }
-
-    private Statement ParseDeclaration()
-    {
-        SkipNewLines();
-        if (Match(TokenType.Function))
-            return ParseFunction();
-        return Match(TokenType.Var) ? ParseVariableDeclaration() : ParseStatement();
     }
 
     private VariableStatement ParseVariableDeclaration()
@@ -83,9 +75,11 @@ public class Parser(IEnumerable<Token> tokens)
             return ParseExpressionOrAssignment();
         if (Match(TokenType.Increment, TokenType.Decrement))
             return ParseIncrementOrDecrement();
-        if (Match(TokenType.Function, TokenType.Var))
-            return ParseDeclaration();
-        if (Check(TokenType.EndOfFile))
+        if (Match(TokenType.Function))
+            return ParseFunction();
+        if (Match(TokenType.Var))
+            return ParseVariableDeclaration();
+        if (Match(TokenType.EndOfFile))
             return new EndOfFileStatement();
         throw new GsException($"Unexpected token: {Peek().Type} at line {Peek().Line}.");
     }
