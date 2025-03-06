@@ -2,11 +2,97 @@ using System.Globalization;
 
 namespace GamerScript.Core;
 
-public class Interpreter(TextWriter? stdout = null) : IVisitor<object?>
+public class Interpreter : IVisitor<object?>
 {
     private readonly Dictionary<string, FunctionStatement> _functions = new();
-    private readonly TextWriter _stdout = stdout ?? Console.Out;
+    private readonly Dictionary<string, Func<CallExpression, object?>> _stdFunctions;
     private readonly Dictionary<string, object?> _variables = new();
+
+    public Interpreter(TextWriter? stdout = null)
+    {
+        var outStream = stdout ?? Console.Out;
+        _stdFunctions = new Dictionary<string, Func<CallExpression, object?>>
+        {
+            {
+                "taunt", expr =>
+                {
+                    var strExpr = expr.Arguments.FirstOrDefault();
+                    var str = strExpr is null ? "" : Evaluate(strExpr);
+                    var newLineExpr = expr.Arguments.ElementAtOrDefault(1);
+                    var newLine = newLineExpr is null ? true : Evaluate(newLineExpr);
+                    if (IsTruthy(newLine))
+                        outStream.WriteLine(str);
+                    else
+                        outStream.Write(str);
+                    if (outStream == Console.Out)
+                        outStream.Flush();
+                    return null;
+                }
+            },
+            {
+                "quest", expr =>
+                {
+                    if (expr.Arguments.FirstOrDefault() is null)
+                        return Console.ReadLine();
+                    outStream.WriteLine(Evaluate(expr.Arguments[0]));
+                    if (outStream == Console.Out)
+                        outStream.Flush();
+                    return Console.ReadLine();
+                }
+            },
+            {
+                "afk", expr =>
+                {
+                    var milliseconds = Convert.ToInt32(Evaluate(expr.Arguments[0])) * 1000;
+                    Thread.Sleep(milliseconds);
+                    return null;
+                }
+            },
+            {
+                "lag", expr =>
+                {
+                    var milliseconds = Convert.ToInt32(Evaluate(expr.Arguments[0]));
+                    Thread.Sleep(milliseconds);
+                    return null;
+                }
+            },
+            {
+                "stat", expr =>
+                {
+                    var value = Evaluate(expr.Arguments[0]);
+                    return value switch
+                    {
+                        null => 0,
+                        string strValue => double.Parse(strValue, CultureInfo.InvariantCulture),
+                        bool boolValue => boolValue ? 1.0 : 0.0,
+                        _ => (double)value
+                    };
+                }
+            },
+            {
+                "chat", expr =>
+                {
+                    var value = Evaluate(expr.Arguments[0]);
+                    return value?.ToString() ?? "";
+                }
+            },
+            {
+                "patch", expr =>
+                {
+                    var value = Evaluate(expr.Arguments[0]);
+                    return IsTruthy(value);
+                }
+            },
+            {
+                "gameover", expr =>
+                {
+                    var exitCode = Convert.ToInt32(Evaluate(expr.Arguments[0]));
+                    Environment.Exit(exitCode);
+                    return null;
+                }
+            }
+        };
+    }
 
     public object? VisitUnaryExpression(UnaryExpression expr)
     {
@@ -65,68 +151,8 @@ public class Interpreter(TextWriter? stdout = null) : IVisitor<object?>
     public object? VisitCallExpression(CallExpression expr)
     {
         var functionName = expr.Identifier.Lexeme;
-        switch (functionName)
-        {
-            case "taunt":
-                var strExpr = expr.Arguments.FirstOrDefault();
-                var str = strExpr is null ? "" : Evaluate(strExpr);
-                var newLineExpr = expr.Arguments.ElementAtOrDefault(1);
-                var newLine = newLineExpr is null ? true : Evaluate(newLineExpr);
-                if (IsTruthy(newLine))
-                    _stdout.WriteLine(str);
-                else
-                    _stdout.Write(str);
-                if (_stdout == Console.Out)
-                    _stdout.Flush();
-                return null;
-            case "quest":
-                if (expr.Arguments.FirstOrDefault() is null)
-                    return Console.ReadLine();
-                _stdout.WriteLine(Evaluate(expr.Arguments[0]));
-                if (_stdout == Console.Out)
-                    _stdout.Flush();
-                return Console.ReadLine();
-            case "afk":
-            {
-                var milliseconds = Convert.ToInt32(Evaluate(expr.Arguments[0])) * 1000;
-                Thread.Sleep(milliseconds);
-                return null;
-            }
-            case "lag":
-            {
-                var milliseconds = Convert.ToInt32(Evaluate(expr.Arguments[0]));
-                Thread.Sleep(milliseconds);
-                return null;
-            }
-            case "stat":
-            {
-                var value = Evaluate(expr.Arguments[0]);
-                return value switch
-                {
-                    null => 0,
-                    string strValue => double.Parse(strValue, CultureInfo.InvariantCulture),
-                    bool boolValue => boolValue ? 1.0 : 0.0,
-                    _ => (double)value
-                };
-            }
-            case "chat":
-            {
-                var value = Evaluate(expr.Arguments[0]);
-                return value?.ToString() ?? "";
-            }
-            case "patch":
-            {
-                var value = Evaluate(expr.Arguments[0]);
-                return IsTruthy(value);
-            }
-            case "gameover":
-            {
-                var exitCode = Convert.ToInt32(Evaluate(expr.Arguments[0]));
-                Environment.Exit(exitCode);
-                return null;
-            }
-        }
-
+        if (_stdFunctions.TryGetValue(functionName, out var stdFunction))
+            return stdFunction(expr);
         if (!_functions.TryGetValue(functionName, out var function))
             throw new GsException($"Undefined function '{functionName}' at line {expr.Identifier.Line}.");
         var scope = new Dictionary<string, object?>();
