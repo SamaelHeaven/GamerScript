@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text.RegularExpressions;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -7,7 +8,7 @@ using SixLabors.ImageSharp.Processing;
 
 namespace GamerScript.Core;
 
-public static class ImageGenerator
+public static partial class ImageGenerator
 {
     private const int FontSize = 32;
     private const int LineSpacing = 8;
@@ -58,8 +59,6 @@ public static class ImageGenerator
         var yOffset = PaddingY;
         foreach (var token in tokens)
         {
-            var finalXOffset = xOffset;
-            var finalYOffset = yOffset;
             var color = token.Type switch
             {
                 >= TokenType.KeywordsBegin and <= TokenType.KeywordsEnd => KeywordColor,
@@ -70,16 +69,26 @@ public static class ImageGenerator
                 TokenType.String => StringColor,
                 _ => IdentifierColor
             };
-            image.Mutate(ctx => ctx.DrawText(token.Lexeme, font, color, new PointF(finalXOffset, finalYOffset)));
-            var textSize = TextMeasurer.MeasureAdvance(token.Lexeme, options);
-            xOffset += (int)Math.Round(textSize.Width);
-            if (token.Type != TokenType.NewLine)
-                continue;
+            foreach (var text in NewLineRegex().Split(token.Lexeme))
+            {
+                var textSize = TextMeasurer.MeasureAdvance(text, options);
+                if (text == "\n")
+                {
+                    xOffset = PaddingX;
+                    yOffset += lineHeight;
+                    continue;
+                }
 
-            xOffset = PaddingX;
-            yOffset += lineHeight;
+                var finalXOffset = xOffset;
+                var finalYOffset = yOffset;
+                image.Mutate(ctx => ctx.DrawText(text, font, color, new PointF(finalXOffset, finalYOffset)));
+                xOffset += (int)Math.Round(textSize.Width);
+            }
         }
 
         return image;
     }
+
+    [GeneratedRegex(@"(\n)")]
+    private static partial Regex NewLineRegex();
 }
