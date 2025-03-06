@@ -92,6 +92,27 @@ public class Interpreter(TextWriter? stdout = null) : IVisitor<object?>
                 Thread.Sleep(milliseconds);
                 return null;
             }
+            case "stat":
+            {
+                var value = Evaluate(expr.Arguments[0]);
+                return value switch
+                {
+                    null => 0,
+                    string strValue => double.Parse(strValue),
+                    bool boolValue => boolValue ? 1.0 : 0.0,
+                    _ => (double)value
+                };
+            }
+            case "chat":
+            {
+                var value = Evaluate(expr.Arguments[0]);
+                return value?.ToString() ?? "";
+            }
+            case "patch":
+            {
+                var value = Evaluate(expr.Arguments[0]);
+                return IsTruthy(value);
+            }
         }
 
         if (!_functions.TryGetValue(functionName, out var function))
@@ -218,6 +239,9 @@ public class Interpreter(TextWriter? stdout = null) : IVisitor<object?>
         {
             null => false,
             bool b => b,
+            double d => d != 0,
+            int i => i != 0,
+            string s => s != "",
             _ => true
         };
     }
