@@ -7,7 +7,7 @@
         <Nullable>enable</Nullable>
         <RootNamespace>GamerScript.CLI</RootNamespace>
     </PropertyGroup>
-    
+
     <ItemGroup>
         <ProjectReference Include="..\Core\Core.csproj"/>
     </ItemGroup>
@@ -20,6 +20,7 @@
 
     <ItemGroup>
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1"/>
+        <PackageReference Include="TextCopy" Version="6.2.1"/>
     </ItemGroup>
 
 </Project>
