@@ -104,7 +104,7 @@ public class Interpreter(TextWriter? stdout = null) : IVisitor<object?>
                 return value switch
                 {
                     null => 0,
-                    string strValue => double.Parse(strValue),
+                    string strValue => double.Parse(strValue, CultureInfo.InvariantCulture),
                     bool boolValue => boolValue ? 1.0 : 0.0,
                     _ => (double)value
                 };
