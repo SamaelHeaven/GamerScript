@@ -33,7 +33,7 @@ public static partial class CodeHighlighter
     public static string GenerateHtml(IEnumerable<Token> tokens)
     {
         var htmlBuilder = new StringBuilder();
-        htmlBuilder.Append("<html><body style='font-family:\"Hack-Regular\", monospace;'>");
+        htmlBuilder.Append("<code style='font-family:\"Hack-Regular\", monospace;'>");
         foreach (var token in tokens)
         {
             var color = GetColorByToken(token);
@@ -43,7 +43,7 @@ public static partial class CodeHighlighter
             htmlBuilder.Append($"<span style='color:{color};'>{value}</span>");
         }
 
-        htmlBuilder.Append("</body></html>");
+        htmlBuilder.Append("</code>");
         return htmlBuilder.ToString();
     }
 
