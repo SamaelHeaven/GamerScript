@@ -20,22 +20,27 @@ The **GamerScript** interpreter is built in **C#**, making it fast and reliable.
 
 ## 📜 **Keywords**
 
-| **GamerScript**         | **Traditional**       | 📝 **Example**                          |
-|-------------------------|-----------------------|-----------------------------------------|
-| `dlc`                 | `function`            | `dlc hello() { taunt("Hi!"); }`       |
-| `loot`                  | `var`                 | `loot score = 0`                        |
-| `clutch`                | `if`                  | `clutch buffed { taunt("Win!"); }`      |
-| `retry`                 | `elif`                | `retry condition { taunt("Retry!"); }`  |
-| `ragequit`              | `else`                | `ragequit { taunt("GG!"); }`            |
-| `buffed`                | `true`                | `loot isPro = buffed`                   |
-| `nerfed`                | `false`               | `loot isNoob = nerfed`                  |
-| `taunt`                 | `print`               | `taunt("You Died!")`                    |
-| `quest`                 | `input`               | `loot name = quest("Your name?")`       |
-| `farm`                  | `while`               | `farm i < 5 { buff i }`                 |
-| `spawn`                 | `return`              | `spawn loot`                            |
-| `afk`                   | `sleep`               | `afk(2)`                                |
-| `buff` (`++`)           | Increment             | `buff score`                            |
-| `nerf` (`--`)           | Decrement             | `nerf score`                            |
+| **GamerScript**         | **Traditional**        | 📝 **Example**                          |
+|-------------------------|------------------------|-----------------------------------------|
+| `dlc`                   | `function`             | `dlc hello() { taunt("Hi!"); }`         |
+| `loot`                  | `var`                  | `loot score = 0`                        |
+| `clutch`                | `if`                   | `clutch buffed { taunt("Win!"); }`      |
+| `retry`                 | `elif`                 | `retry condition { taunt("Retry!"); }`  |
+| `ragequit`              | `else`                 | `ragequit { taunt("GG!"); }`            |
+| `buffed`                | `true`                 | `loot isPro = buffed`                   |
+| `nerfed`                | `false`                | `loot isNoob = nerfed`                  |
+| `taunt`                 | `print`                | `taunt("You Died!")`                    |
+| `quest`                 | `input`                | `loot name = quest("Your name?")`       |
+| `farm`                  | `while`                | `farm i < 5 { buff i }`                 |
+| `spawn`                 | `return`               | `spawn loot`                            |
+| `afk`                   | `sleep` (seconds)      | `afk(2)`                                |
+| `lag`                   | `sleep` (milliseconds) | `lag(500)`                              |
+| `buff` (`++`)           | Increment              | `buff score`                            |
+| `nerf` (`--`)           | Decrement              | `nerf score`                            |
+| `stat`                  | `toNumber`             | `loot hp = stat("100")`                 |
+| `chat`                  | `toString`             | `loot msg = chat(123)`                  |
+| `patch`                 | `toBool`               | `clutch patch(x) { taunt("Patched!") }` |
+| `gameover`              | `exit`                 | `gameover(0)`                           |
 
 ---
 

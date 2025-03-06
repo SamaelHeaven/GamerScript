@@ -88,6 +88,12 @@ public class Interpreter(TextWriter? stdout = null) : IVisitor<object?>
                 return Console.ReadLine();
             case "afk":
             {
+                var milliseconds = Convert.ToInt32(Evaluate(expr.Arguments[0])) * 1000;
+                Thread.Sleep(milliseconds);
+                return null;
+            }
+            case "lag":
+            {
                 var milliseconds = Convert.ToInt32(Evaluate(expr.Arguments[0]));
                 Thread.Sleep(milliseconds);
                 return null;
@@ -112,6 +118,12 @@ public class Interpreter(TextWriter? stdout = null) : IVisitor<object?>
             {
                 var value = Evaluate(expr.Arguments[0]);
                 return IsTruthy(value);
+            }
+            case "gameover":
+            {
+                var exitCode = Convert.ToInt32(Evaluate(expr.Arguments[0]));
+                Environment.Exit(exitCode);
+                return null;
             }
         }
 
