@@ -20,7 +20,7 @@ var htmlOption = new Option<bool>(
 htmlOption.AddAlias("-h");
 
 var rootCommand =
-    new RootCommand("Executes a GamerScript source file or generates an image showcasing the highlighted code")
+    new RootCommand("Executes a GamerScript source file or generates highlighted code")
     {
         sourceArgument,
         imageOption,
