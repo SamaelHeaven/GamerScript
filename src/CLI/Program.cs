@@ -11,12 +11,12 @@ sourceArgument.ExistingOnly();
 
 var imageOption = new Option<string?>(
     "--image",
-    "The name of the image to generate code highlighting");
+    "Generates a PNG image of the highlighted code with the specified name");
 imageOption.AddAlias("-i");
 
 var htmlOption = new Option<bool>(
     "--html",
-    "Generates HTML code highlighting and copy the result to the clipboard");
+    "Generates HTML of the highlighted code and copy the result to the clipboard");
 htmlOption.AddAlias("-h");
 
 var rootCommand =
