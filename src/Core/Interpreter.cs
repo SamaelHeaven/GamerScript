@@ -216,10 +216,12 @@ public class Interpreter : IVisitor<object?>
         return null;
     }
 
-    public object? VisitReturnStatement(ReturnStatement stmt)
+    public object VisitReturnStatement(ReturnStatement stmt)
     {
-        return stmt.Value is not null ? Evaluate(stmt.Value) : null;
+        var returnValue = stmt.Value is not null ? Evaluate(stmt.Value) : null;
+        throw new ReturnException(returnValue);
     }
+
 
     public object? VisitDecrementStatement(DecrementStatement stmt)
     {
@@ -291,11 +293,14 @@ public class Interpreter : IVisitor<object?>
                 _variables[key] = value;
 
             object? result = null;
-            foreach (var statement in function.Body.Statements)
+            try
             {
-                result = ExecuteAndReturn(statement);
-                if (result is not null)
-                    break;
+                foreach (var statement in function.Body.Statements)
+                    result = ExecuteAndReturn(statement);
+            }
+            catch (ReturnException ex)
+            {
+                result = ex.ReturnValue;
             }
 
             return result;
@@ -308,11 +313,15 @@ public class Interpreter : IVisitor<object?>
         }
     }
 
+
     private object? ExecuteAndReturn(AstNode stmt)
     {
-        if (stmt is ReturnStatement returnStmt)
-            return VisitReturnStatement(returnStmt);
         stmt.Accept(this);
         return null;
+    }
+
+    private class ReturnException(object? returnValue) : Exception
+    {
+        public object? ReturnValue { get; } = returnValue;
     }
 }

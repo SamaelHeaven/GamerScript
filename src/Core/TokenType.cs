@@ -14,8 +14,8 @@ public enum TokenType
     While,
     Return,
     Increment,
-    Decrement,
-    KeywordsEnd = Decrement,
+    KeywordsEnd,
+    Decrement = KeywordsEnd,
 
     // Operators
     OperatorsBegin,
@@ -28,8 +28,8 @@ public enum TokenType
     GreaterThan,
     GreaterThanOrEqual,
     LessThan,
-    LessThanOrEqual,
-    OperatorsEnd = LessThanOrEqual,
+    OperatorsEnd,
+    LessThanOrEqual = OperatorsEnd,
 
     // Delimiters
     DelimitersBegin,
@@ -37,8 +37,8 @@ public enum TokenType
     RightParen,
     LeftBrace,
     RightBrace,
-    Comma,
-    DelimitersEnd = Comma,
+    DelimitersEnd,
+    Comma = DelimitersEnd,
 
     // Others
     Identifier,

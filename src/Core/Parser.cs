@@ -271,12 +271,12 @@ public class Parser(IEnumerable<Token> tokens)
 
     private bool Check(TokenType type)
     {
-        return Peek().Type == type;
+        return _current < _tokens.Count && Peek().Type == type;
     }
 
     private bool IsAtEnd()
     {
-        return Peek().Type == TokenType.EndOfFile;
+        return _current >= _tokens.Count || Peek().Type == TokenType.EndOfFile;
     }
 
     private Token Peek()

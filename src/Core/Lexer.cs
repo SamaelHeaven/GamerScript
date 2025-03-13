@@ -19,7 +19,7 @@ public class Lexer(string source)
         { "nerf", TokenType.Decrement }
     };
 
-    private readonly string _source = source.Replace("\r", "");
+    private readonly string _source = source.Replace("\r", "").Replace("\v", "").Replace("\f", "");
     private int _line = 1;
     private int _position;
     private int _start;
