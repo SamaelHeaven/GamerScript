@@ -57,6 +57,72 @@ public class InterpreterTest
             buff i
         }
         """)]
+    [InlineData("Bill", """
+        loot price = 28.5
+        loot TPS = 0.05
+        loot TVQ = 0.09975
+        loot tps = price * TPS
+        loot tvq = price * TVQ
+        loot total = price + tps + tvq
+
+        taunt("Sous-total : " + price)
+        taunt("TPS (5%) : " + tps)
+        taunt("TVQ (9.975%) : " + tvq)
+        taunt("Total à payer : " + total)
+        """)]
+    [InlineData("Fibonacci", """
+        dlc fibonacci(n) {
+            clutch n <= 1 {
+                spawn n
+            }
+        
+            loot a = fibonacci(n - 1)
+            loot b = fibonacci(n - 2)
+        
+            spawn a + b
+        }
+
+        loot i = 1
+        farm i < 10 {
+            taunt(fibonacci(i))
+            buff i
+        }
+        """)]
+    [InlineData("Triangle", """
+        dlc displayTriangle(size) {
+            loot i = 1
+            farm i <= size {
+                loot line = ""
+                loot spaces = size - i
+                loot j = 1
+        
+                farm j <= spaces {
+                    line = line + " "
+                    buff j
+                }
+        
+                loot k = 1
+                farm k <= 2 * i - 1 {
+                    clutch k == 1 {
+                        line = line + "*"
+                    } retry k == 2 * i - 1 {
+                        line = line + "*"
+                    } retry i == size {
+                        line = line + "*"
+                    } ragequit {
+                        line = line + " "
+                    }
+                    buff k
+                }
+        
+                taunt(line)
+                buff i
+            }
+        }
+
+        loot size = 8
+        displayTriangle(size)
+        """)]
     public Task Test(string testName, string sourceCode, bool autoVerify = false)
     {
         var settings = new VerifySettings();
