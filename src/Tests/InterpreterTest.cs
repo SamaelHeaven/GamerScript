@@ -65,10 +65,10 @@ public class InterpreterTest
         loot tvq = price * TVQ
         loot total = price + tps + tvq
 
-        taunt("Sous-total : " + price)
+        taunt("Price : " + price)
         taunt("TPS (5%) : " + tps)
         taunt("TVQ (9.975%) : " + tvq)
-        taunt("Total à payer : " + total)
+        taunt("Total : " + total)
         """)]
     [InlineData("Fibonacci", """
         dlc fibonacci(n) {
