@@ -134,12 +134,19 @@ public class Lexer(string source)
     private Token LexString()
     {
         var line = _line;
+        if (_position + 1 < _source.Length && _source[_position] == '\"')
+        {
+            _position++;
+            return Lex(TokenType.String, "\"\"", line);
+        }
+
         _position++;
         while (_position < _source.Length && _source[_position] != '\"')
         {
             if (_source[_position] == '\n')
                 _line++;
-            if (_source[_position] == '\\' && _position + 1 < _source.Length && _source[_position + 1] == '\"')
+            if (_source[_position] == '\\' && _position + 1 < _source.Length &&
+                _source[_position + 1] is '\"' or 'n' or 'r' or '\\')
                 _position++;
             _position++;
         }
